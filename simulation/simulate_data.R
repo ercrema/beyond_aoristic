@@ -97,5 +97,16 @@ lines(timeRange[1]:timeRange[2],expected.dens,col='steelblue',lty=2,lwd=2)
 legend('topright',legend=c('Aoristic Sum','MC Simulation','MC Simulation Median','True Density'),lty=c(1,1,2,2),col=c(1,'lightgrey','indianred','steelblue'),pch=c(20,NA,NA,NA),lwd=c(1,7,1,2),bty='n')
 dev.off()
 
+# Compute midpoint and half span on simulated data ----
+x1$m  <- round(apply(x1[,2:3],1,median)) #mid point of each timespan
+x2$m  <- round(apply(x2[,2:3],1,median)) 
+x3$m  <- round(apply(x3[,2:3],1,median)) 
+x4$m  <- round(apply(x4[,2:3],1,median)) 
+
+x1$s  <- apply(x1[,2:3],1,function(x){abs(diff(x))/2}) #half the time-span
+x2$s  <- apply(x2[,2:3],1,function(x){abs(diff(x))/2}) 
+x3$s  <- apply(x3[,2:3],1,function(x){abs(diff(x))/2}) 
+x4$s  <- apply(x4[,2:3],1,function(x){abs(diff(x))/2}) 
+
 # Store simulated data ----
 save(x1,x2,x3,x4,r1,r2,changepoint,timeRange,file=here('simulation','simulated_data.RData'))
