@@ -11,7 +11,7 @@ source(here('src','ribbon.R'))
 
 
 # Simulate observed data in calendar time ----
-set.seed(123)
+set.seed(12345)
 nsample = 1000
 timeRange = c(5000,3001)
 changepoint = 4300
@@ -36,7 +36,7 @@ x2  <- time2phase(x,phases2)
 ## Scenario 3 - overlapping phses (emulating phase assignment uncertainty) 
 phases3 <- data.frame(phasename=letters[1:14])
 phases3$starts = c(5000,5000,4700,4700,4700,4700,4700,4500,4500,4500,4000,4000,3800,3500)
-phases3$ends   = c(4001,4701,4501,4001,3801,3501,3001,4001,3801,3001,3801,3001,3001,3001)
+phases3$ends   = c(4501,4701,4501,4001,3801,3501,3001,4001,3801,3001,3801,3001,3001,3001)
 x3  <- time2phase(x,phases3)
 
 ## Scenario 4 - random time-span error 
