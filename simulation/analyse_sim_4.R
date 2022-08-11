@@ -61,7 +61,7 @@ run  <- function(seed,d,constants,nburnin,niter,thin)
 
 # Run MCMC ----
 print(paste0('Running with nchains=', ncores, '; niter=', niter,'; nburnin=', nburnin, ',; thin=',thin))
-out.1  <- parLapply(cl=cl,X=seeds,fun=run,d=d,constants=constants,niter=niter,nburnin=nburnin,thin=thin)
+out.4  <- parLapply(cl=cl,X=seeds,fun=run,d=d,constants=constants,niter=niter,nburnin=nburnin,thin=thin)
 stopCluster(cl)
 
 # Diagnostic and Posterior Processing
