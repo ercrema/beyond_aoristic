@@ -3,7 +3,6 @@ library(rnaturalearth)
 library(dplyr)
 library(sf)
 library(rcarbon)
-library(stringdist)
 
 # Read Data ----
 d  <- read.csv(here('data','site_raw.csv'))
@@ -149,14 +148,14 @@ for (i in 1:length(ages))
 }
 
 chronos  <- subset(chronos,exclude==FALSE)
-chronos$rng  <- chronos$start - chronos$end
-chronos$mid  <- chronos$start - chronos$rng/2
+chronos$s  <- abs(chronos$start - chronos$end)/2
+chronos$m  <- chronos$start - chronos$s
 
-# Several Entries hav e a chronology dated to 100~100 - this should be assigned to a small margin of error (30 years)
-i  <- which(chronos$rng==0)
-chronos$rng[i] = 30
+# Several Entries hav e a chronology dated to 100~100 - this should be assigned to a small margin of error (15 years)
+i  <- which(chronos$s==0)
+chronos$s[i] = 15
 # Merge back to original data
-d <- left_join(d,select(chronos,entry,mid,rng),by=c("Chronology"="entry"))
+d <- left_join(d,select(chronos,entry,m,s,start,end),by=c("Chronology"="entry"))
 
 # Identify Prefectures ----
 prefTrans  <- read.csv(here('data','prefectures_translations.csv'))
