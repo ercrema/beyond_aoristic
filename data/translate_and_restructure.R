@@ -147,7 +147,7 @@ for (i in 1:length(ages))
 	}
 }
 
-chronos  <- subset(chronos,exclude==FALSE)
+chronos  <- subset(chronos,exclude==FALSE) |> unique()
 chronos$s  <- abs(chronos$start - chronos$end)/2
 chronos$m  <- chronos$start - chronos$s
 
