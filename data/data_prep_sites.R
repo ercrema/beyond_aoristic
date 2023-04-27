@@ -178,9 +178,11 @@ d$Prefecture[ii]  <- jp$name[as.numeric(st_intersects(check.sites,jp))]
 # Eliminate all remaining cases
 d <- subset(d,!is.na(Prefecture))
 
-# Assign Region
-d  <- left_join(d, prefTrans, by=c('Prefecture'='Translation'))
+sitedb  <- d
+
+#Eliminate sites with problematic chronologies
+sitedb  <- subset(sitedb,!is.na(m))
 
 # Save Output
-save(d,file=here('data','case_study_data.RData'))
+save(sitedb,file=here('data','sitedata.RData'))
 
