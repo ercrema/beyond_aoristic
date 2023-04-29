@@ -2,6 +2,7 @@ library(here)
 library(rnaturalearth)
 library(dplyr)
 library(sf)
+library(spdep)
 library(rcarbon)
 
 # Read Data ----
@@ -157,7 +158,14 @@ chronos$s[i] = 15
 # Merge back to original data
 d <- left_join(d,select(chronos,entry,m,s,start,end),by=c("Chronology"="entry"))
 
-# Identify Prefectures ----
+# Identify Prefectures and Neighbourhood for ICAR----
+win <- ne_states(country = "japan",returnclass = 'sf') |> subset(!name_vi %in% c("Okinawa","Hokkaido"))
+Npref <- nrow(win)
+win$ID  <-  1:Npref
+W_nb <- poly2nb(win, row.names =  win$ID)
+nbInfo <- nb2WB(W_nb)
+
+
 prefTrans  <- read.csv(here('data','prefectures_translations.csv'))
 d$Prefecture  <- NA
 
@@ -176,13 +184,29 @@ jp  <- ne_states(country = 'japan',returnclass = 'sf')
 d$Prefecture[ii]  <- jp$name[as.numeric(st_intersects(check.sites,jp))]
 
 # Eliminate all remaining cases
-d <- subset(d,!is.na(Prefecture))
-
-sitedb  <- d
+d <- subset(d,!is.na(Prefecture)&!Prefecture%in%c("Okinawa","Hokkaido"))
 
 #Eliminate sites with problematic chronologies
-sitedb  <- subset(sitedb,!is.na(m))
+d  <- subset(d,!is.na(m))
+
+# Narrow to Yayoi period 
+foo  <- function(x1,y1,x2,y2)
+{
+	d  <- x1 - y1
+	p  <- 1/d
+	if (x1<=x2 & y1>=y2) {return(1)}
+	if (x1>x2 & y1>x2) {return(0)}
+	if (x1<y2 & y1<y2) {return(0)}
+	if (x1>=x2 & y1>y2) {return(abs(x2-y1)*p)}
+	if (x1<x2 & y1<y2) {return(abs(x1-y2)*p)}
+	if (x1>=x2 & y1<=y2) {return(abs(x2-y2)*p)}
+}
+
+# Compute probabilities within window
+d$prob.within  <- unlist(apply(cbind(d$start,d$end,2900,1700),1,function(x){foo(x[1],x[2],x[3],x[4])}))
+d <- subset(d,prob.within==1)
 
 # Save Output
-save(sitedb,file=here('data','sitedata.RData'))
+sitedb  <- d
+save(win,nbInfo,sitedb,file=here('data','sitedata.RData'))
 
