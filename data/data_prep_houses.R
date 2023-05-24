@@ -1,5 +1,6 @@
 # Load Libraries, Functions, and Data from Crema and Kobayashi 2020 ----
 library(here)
+library(trapezoid)
 # scripts
 source("https://raw.githubusercontent.com/ercrema/jomonPhasesAndPopulation/master/R/mcsim.R")
 source("https://raw.githubusercontent.com/ercrema/jomonPhasesAndPopulation/master/R/utilities.R")
@@ -24,7 +25,8 @@ colnames(mat) <- midPoints
 ii <- which(midPoints>=7000)[1]:which(midPoints<=3000)[sum(midPoints<=3000)]
 cumultaive.prob  <- apply(mat[,ii],1,sum)
 mat  <- mat[which(cumultaive.prob>0.8),ii]
+midPoints  <- as.numeric(colnames(mat))
 housedb  <- prop.table(mat,margin = 1)
 # barplot(apply(mat,2,sum))
 
-save(housedb,file=here('data','housedata.RData'))
+save(housedb,midPoints,file=here('data','housedata.RData'))
