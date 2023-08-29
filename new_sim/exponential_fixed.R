@@ -1,0 +1,49 @@
+library(baorista)
+library(nimbleCarbon)
+library(here)
+library(dplyr)
+source(here('src','time2phase.R'))
+source(here('src','unifdisc.R'))
+source(here('src','diristick.R'))
+
+
+nsim=20 
+sample.sizes  <- c(100,250,500)
+r <- 0.002
+res  <- vector('list',length=length(sample.sizes))
+
+for (k in 1:length(sample.sizes))
+{
+	res[[k]] <- data.frame(id=1:nsim,r=NA,c95lo=NA,c95hi=NA,c95prec=NA,c95acc=NA,hpdilo=NA,hpdihi=NA,hpdiprec=NA,hpdiacc=NA)
+}
+
+for (i in 1:nsim)
+{
+	for (k in 1:length(sample.sizes))
+	{
+		set.seed(i)
+		cal.dates  <-  replicate(n=sample.sizes[k], rExponentialGrowth(a=4999,b=3002,r=r))
+		nphases <- sample(3:10,replace=T,size=1)
+		phases <- diristick(alpha=rep(0.5,nphases),timeRange=c(5000,3001))
+		adata <- time2phase(cal.dates,phases)
+		x <- createProbMat(adata[,2:3],timeRange=c(5000,3001),resolution=1)
+		yy <- apply(x$pmat,2,sum)
+		dd  <- data.frame(xx=-apply(x$tblocks,1,median),yy=yy)
+		#         fit <- nls(yy ~ a*exp(r*xx), data=dd, start=list(a=0.5, r=0.05))
+		fit  <- lm(log(yy+0.001)~xx,data=dd)
+		c95 <- confint(fit)[2,]
+		fitB <- expfit(x,rPrior='dunif(-1,1)')
+		hpdi <- HPDinterval(mcmc(fitB$posterior.r)) |> as.numeric()
+		res[[k]]$r[i] <- r
+		res[[k]]$c95lo[i] <- c95[1]
+		res[[k]]$c95hi[i] <- c95[2]
+		res[[k]]$c95prec[i] <- abs(diff(c95))
+		res[[k]]$c95acc[i] <- (c95[1]<=r & c95[2]>=r)
+		res[[k]]$hpdilo[i] <- hpdi[1]
+		res[[k]]$hpdihi[i] <- hpdi[2]
+		res[[k]]$hpdiprec[i] <- abs(diff(hpdi))
+		res[[k]]$hpdiacc[i] <- (hpdi[1]<=r & hpdi[2]>=r)
+	}
+}
+
+save(res,sample.sizes,r,here('new_sim','expFixed.RData'))
