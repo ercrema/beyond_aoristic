@@ -10,6 +10,7 @@ source(here('src','diristick.R'))
 nsim=20 
 sample.sizes  <- c(100,250,500)
 r <- 0.002
+resolution <- 10
 res  <- vector('list',length=length(sample.sizes))
 
 for (k in 1:length(sample.sizes))
@@ -26,13 +27,13 @@ for (i in 1:nsim)
 		nphases <- sample(3:10,replace=T,size=1)
 		phases <- diristick(alpha=rep(0.5,nphases),timeRange=c(5000,3001))
 		adata <- time2phase(cal.dates,phases)
-		x <- createProbMat(adata[,2:3],timeRange=c(5000,3001),resolution=1)
+		x <- createProbMat(adata[,2:3],timeRange=c(5000,3001),resolution=resolution)
 		yy <- apply(x$pmat,2,sum)
 		dd  <- data.frame(xx=-apply(x$tblocks,1,median),yy=yy)
 		#         fit <- nls(yy ~ a*exp(r*xx), data=dd, start=list(a=0.5, r=0.05))
 		fit  <- lm(log(yy+0.001)~xx,data=dd)
 		c95 <- confint(fit)[2,]
-		fitB <- expfit(x,rPrior='dunif(-1,1)')
+		fitB <- expfit(x,rPrior='dunif(-1,1)',parallel=TRUE)
 		hpdi <- HPDinterval(mcmc(fitB$posterior.r)) |> as.numeric()
 		res[[k]]$r[i] <- r
 		res[[k]]$c95lo[i] <- c95[1]
@@ -46,4 +47,4 @@ for (i in 1:nsim)
 	}
 }
 
-save(res,sample.sizes,r,here('new_sim','expFixed.RData'))
+save(res,sample.sizes,r,file=here('new_sim','expFixed.RData'))
