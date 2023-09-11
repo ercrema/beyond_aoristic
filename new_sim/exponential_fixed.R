@@ -11,11 +11,11 @@ nsim=20
 sample.sizes  <- c(100,250,500)
 r <- 0.002
 resolution <- 10
-res  <- vector('list',length=length(sample.sizes))
+exp.fixed  <- vector('list',length=length(sample.sizes))
 
 for (k in 1:length(sample.sizes))
 {
-	res[[k]] <- data.frame(id=1:nsim,r=NA,c95lo=NA,c95hi=NA,c95prec=NA,c95acc=NA,hpdilo=NA,hpdihi=NA,hpdiprec=NA,hpdiacc=NA)
+	exp.fixed[[k]] <- data.frame(id=1:nsim,r=NA,c95lo=NA,c95hi=NA,c95prec=NA,c95acc=NA,hpdilo=NA,hpdihi=NA,hpdiprec=NA,hpdiacc=NA)
 }
 
 for (i in 1:nsim)
@@ -35,16 +35,16 @@ for (i in 1:nsim)
 		c95 <- confint(fit)[2,]
 		fitB <- expfit(x,rPrior='dunif(-1,1)',parallel=TRUE)
 		hpdi <- HPDinterval(mcmc(fitB$posterior.r)) |> as.numeric()
-		res[[k]]$r[i] <- r
-		res[[k]]$c95lo[i] <- c95[1]
-		res[[k]]$c95hi[i] <- c95[2]
-		res[[k]]$c95prec[i] <- abs(diff(c95))
-		res[[k]]$c95acc[i] <- (c95[1]<=r & c95[2]>=r)
-		res[[k]]$hpdilo[i] <- hpdi[1]
-		res[[k]]$hpdihi[i] <- hpdi[2]
-		res[[k]]$hpdiprec[i] <- abs(diff(hpdi))
-		res[[k]]$hpdiacc[i] <- (hpdi[1]<=r & hpdi[2]>=r)
+		exp.fixed[[k]]$r[i] <- r
+		exp.fixed[[k]]$c95lo[i] <- c95[1]
+		exp.fixed[[k]]$c95hi[i] <- c95[2]
+		exp.fixed[[k]]$c95prec[i] <- abs(diff(c95))
+		exp.fixed[[k]]$c95acc[i] <- (c95[1]<=r & c95[2]>=r)
+		exp.fixed[[k]]$hpdilo[i] <- hpdi[1]
+		exp.fixed[[k]]$hpdihi[i] <- hpdi[2]
+		exp.fixed[[k]]$hpdiprec[i] <- abs(diff(hpdi))
+		exp.fixed[[k]]$hpdiacc[i] <- (hpdi[1]<=r & hpdi[2]>=r)
 	}
 }
 
-save(res,sample.sizes,r,file=here('new_sim','expFixed.RData'))
+save(exp.fixed,sample.sizes,r,file=here('new_sim','expFixed.RData'))
