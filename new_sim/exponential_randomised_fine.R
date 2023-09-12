@@ -107,7 +107,7 @@ for (i in 1:nsim)
 	res$hpdi.hi[i] <- hpdi[2]
 	res$prec.bayes[i] <- abs(diff(hpdi))
 	res$acc.lm[i] <- between(res$r[i],ci[1],ci[2])
-	res$acc.bayes[i] <- between(res$r[i],hpdi[2],hpdi[2])
+	res$acc.bayes[i] <- between(res$r[i],hpdi[1],hpdi[2])
 }
 res.fine <- res
 save(res.fine,file='res_fine.RData')
