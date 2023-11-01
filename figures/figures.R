@@ -5,14 +5,65 @@ library(emdbook)
 library(here)
 library(dplyr)
 source(here('src','time2phase.R'))
+source(here('src','ribbon.R'))
 source(here('src','unifdisc.R'))
 source(here('src','diristick.R'))
 source(here('src','phaserect.R'))
 
 # Figure file format 
 args <- commandArgs(trailingOnly = TRUE)
-if (is.null(args)){ff  <- 'png'}
-ff  <- args
+if (is.null(args)){ff  <- 'png'} else {ff  <- args}
+
+
+# Figure 1 (Periodisation Problem') ----
+load(here('results','figure1_res.RData'))
+
+
+if (ff=='png')
+{
+png(file=here('figures','figure1.png'),width=6,height=6,units='in',res=800)
+}
+
+if (ff=='tiff')
+{
+tiff(file=here('figures','figure1.tiff'),width=6,height=6,units='in',res=800)
+}
+
+
+
+par(mfrow=c(2,2),lend=2,mar=c(5,4,0.5,1))
+plot(apply(asum1[,-3],1,median),asum1[,3],xlim=timeRange,type='b',pch=20,xlab='BP',ylab='Aoristic Sum',ylim=c(0,max(c(expected.dens,asum1[,3],mcs1[[2]]))),main='')
+mdp = apply(mcs1[[1]],1,median)
+ribbon(x=mdp,y=mcs1[[2]])
+lines(mdp,apply(mcs1[[2]],1,median),lty=2,col='indianred',lwd=1.5)
+lines(timeRange[1]:timeRange[2],expected.dens,col='steelblue',lty=2,lwd=2)
+legend('topleft',legend='a',bty='n',cex=1.2)
+
+
+plot(apply(asum2[,-3],1,median),asum2[,3],xlim=timeRange,type='b',pch=20,xlab='BP',ylab='Aoristic Sum',ylim=c(0,max(c(expected.dens,asum2[,3],mcs2[[2]]))),main='')
+mdp = apply(mcs2[[1]],1,median)
+ribbon(x=mdp,y=mcs2[[2]])
+lines(mdp,apply(mcs2[[2]],1,median),lty=2,col='indianred',lwd=1.5)
+lines(timeRange[1]:timeRange[2],expected.dens,col='steelblue',lty=2,lwd=2)
+legend('topleft',legend='b',bty='n',cex=1.2)
+
+plot(apply(asum3[,-3],1,median),asum3[,3],xlim=timeRange,type='b',pch=20,xlab='BP',ylab='Aoristic Sum',ylim=c(0,max(c(expected.dens,asum3[,3],mcs3[[2]]))),main='')
+mdp = apply(mcs3[[1]],1,median)
+ribbon(x=mdp,y=mcs3[[2]])
+lines(mdp,apply(mcs3[[2]],1,median),lty=2,col='indianred',lwd=1.5)
+lines(timeRange[1]:timeRange[2],expected.dens,col='steelblue',lty=2,lwd=2)
+legend('topleft',legend='c',bty='n',cex=1.2)
+
+plot(apply(asum4[,-3],1,median),asum4[,3],xlim=timeRange,type='b',pch=20,xlab='BP',ylab='Aoristic Sum',ylim=c(0,max(c(expected.dens,asum4[,3],mcs4[[2]]))),main='')
+mdp = apply(mcs4[[1]],1,median)
+ribbon(x=mdp,y=mcs4[[2]])
+lines(mdp,apply(mcs4[[2]],1,median),lty=2,col='indianred',lwd=1.5)
+lines(timeRange[1]:timeRange[2],expected.dens,col='steelblue',lty=2,lwd=2)
+
+legend('topright',legend=c('Aoristic Sum','MC Simulation','MC Simulation Median','True Density'),lty=c(1,1,2,2),col=c(1,'lightgrey','indianred','steelblue'),pch=c(20,NA,NA,NA),lwd=c(1,7,1,2),bty='n',cex=0.7)
+legend('topleft',legend='d',bty='n',cex=1.2)
+dev.off()
+
 
 
 
@@ -20,16 +71,14 @@ ff  <- args
 load(here('results','exp01_res.RData'))
 
 
-# setEPS()
-# postscript(here('figures','figure1.eps'),width=8,height=10)
 if (ff=='png')
 {
-png(file=here('figures','figure1.png'),width=6,height=7,units='in',res=800)
+png(file=here('figures','figure2.png'),width=6,height=7,units='in',res=800)
 }
 
 if (ff=='tiff')
 {
-tiff(file=here('figures','figure1.tiff'),width=6,height=7,units='in',res=800)
+tiff(file=here('figures','figure2.tiff'),width=6,height=7,units='in',res=800)
 }
 
 layout(cbind(1:4,c(5,7,9,11),c(6,8,10,12)),width=c(0.1,1,1),height=c(0.1,1,1,1))
@@ -82,12 +131,12 @@ load(here('results','exp02b_res.RData'))
 
 if (ff=='png')
 {
-png(file=here('figures','figure2.png'),width=8,height=7.3,res=800,units='in')
+png(file=here('figures','figure3.png'),width=8,height=7.3,res=800,units='in')
 }
 
 if (ff=='tiff')
 {
-tiff(file=here('figures','figure2.tiff'),width=8,height=7.3,res=800,units='in')
+tiff(file=here('figures','figure3.tiff'),width=8,height=7.3,res=800,units='in')
 }
 
 par(mfrow=c(2,2),mar=c(5,4,3,1))
@@ -104,12 +153,12 @@ load(here('results','exp03_res.RData'))
 
 if (ff=='png')
 {
-png(file=here('figures','figure3.png'),width=8,height=8,res=800,units='in')
+png(file=here('figures','figure4.png'),width=8,height=8,res=800,units='in')
 }
 
 if (ff=='tiff')
 {
-tiff(file=here('figures','figure3.tiff'),width=8,height=8,res=800,units='in')
+tiff(file=here('figures','figure4.tiff'),width=8,height=8,res=800,units='in')
 }
 
 par(mfcol=c(2,2),mar=c(4,4,2,1))
@@ -144,12 +193,12 @@ load(here('results','exp04_res.RData'))
 
 if (ff=='png')
 {
-png(file=here('figures','figure4.png'),width=5,height=7,res=800,units='in')
+png(file=here('figures','figure5.png'),width=5,height=7,res=800,units='in')
 }
 
 if (ff=='tiff')
 {
-tiff(file=here('figures','figure4.tiff'),width=5,height=7,res=800,units='in')
+tiff(file=here('figures','figure5.tiff'),width=5,height=7,res=800,units='in')
 }
 
 
@@ -170,12 +219,12 @@ load(here('results','exp04_res.RData'))
 
 if (ff=='png')
 {
-png(file=here('figures','figure5.png'),width=5,height=7,res=800,units='in')
+png(file=here('figures','figure6.png'),width=5,height=7,res=800,units='in')
 }
 
 if (ff=='tiff')
 {
-tiff(file=here('figures','figure5.tiff'),width=5,height=7,res=800,units='in')
+tiff(file=here('figures','figure6.tiff'),width=5,height=7,res=800,units='in')
 }
 
 par(mfrow=c(3,2),mar=c(4,4,2,1))
