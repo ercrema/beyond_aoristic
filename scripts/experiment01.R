@@ -47,4 +47,4 @@ for (i in 1:nsim)
 	}
 }
 
-save(exp.fixed,sample.sizes,r,file=here('results','expFixed.RData'))
+save(exp.fixed,sample.sizes,r,file=here('results','exp01_res.RData'))

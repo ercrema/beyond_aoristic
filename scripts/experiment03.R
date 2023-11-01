@@ -33,6 +33,6 @@ mm <- sparam$m[c(1,5483,3000)]
 caldates  <- replicate(500,rLogisticGrowth2(1,r=rr[1],a=800,b=301,m=mm[1]))
 probMatEqui <- time2phase(caldates,data.frame(names=letters[1:2],starts=c(800,500),ends=c(501,301)))[,2:3] |> createProbMat(timeRange=c(800,301),resolution=1)
 fit  <- logisticfit(probMatEqui,rPrior='dunif(0.001,0.03)',mPrior='dunif(1,z)')
-save(rr,mm,sparam,fit,here('results','equifinality.RData'))
+save(rr,mm,sparam,fit,here('results','exp03_res.RData'))
 
 

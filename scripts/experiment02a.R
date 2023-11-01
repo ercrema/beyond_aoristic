@@ -40,7 +40,7 @@ suppressMessages(registerDistributions(list(
 
 nsim  <- 1000
 max.sample  <- 500
-resolution <- 10
+resolution <- 100
 res <- data.frame(nsim.id=1:nsim,r=NA,n=NA,ci.lo=NA,ci.hi=NA,hpdi.lo=NA,hpdi.hi=NA,prec.lm=NA,prec.bayes=NA,acc.lm=NA,acc.bayes=NA)
 
 for (i in 1:nsim)
@@ -109,6 +109,7 @@ for (i in 1:nsim)
 	res$acc.lm[i] <- between(res$r[i],ci[1],ci[2])
 	res$acc.bayes[i] <- between(res$r[i],hpdi[1],hpdi[2])
 }
-res.fine <- res
-save(res.fine,file=here('results','res_fine.RData'))
+
+res.coarse <- res
+save(res.coarse,file=here('results','exp02a_res.RData'))
 

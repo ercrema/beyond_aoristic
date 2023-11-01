@@ -1,3 +1,4 @@
+# Load Libraries and Source Code ----
 library(baorista)
 library(nimbleCarbon)
 library(emdbook)
@@ -8,15 +9,28 @@ source(here('src','unifdisc.R'))
 source(here('src','diristick.R'))
 source(here('src','phaserect.R'))
 
+# Figure file format 
+args <- commandArgs(trailingOnly = TRUE)
+if (is.null(args)){ff  <- 'png'}
+ff  <- args
+
+
 
 # Fixed Exponential Experiment (Experiment 1) ----
-load(here('results','expFixed.RData'))
+load(here('results','exp01_res.RData'))
 
 
 # setEPS()
 # postscript(here('figures','figure1.eps'),width=8,height=10)
+if (ff=='png')
+{
+png(file=here('figures','figure1.png'),width=6,height=7,units='in',res=800)
+}
 
+if (ff=='tiff')
+{
 tiff(file=here('figures','figure1.tiff'),width=6,height=7,units='in',res=800)
+}
 
 layout(cbind(1:4,c(5,7,9,11),c(6,8,10,12)),width=c(0.1,1,1),height=c(0.1,1,1,1))
 par(mar=c(0,0,0,0))
@@ -59,12 +73,22 @@ for (k in 1:length(sample.sizes))
 dev.off()
 
 ### Randomised Model (Experiment 2) ----
-load(here('results','res_coarse.RData'))
-load(here('results','res_fine.RData'))
+load(here('results','exp02a_res.RData'))
+load(here('results','exp02b_res.RData'))
 
 # setEPS()
 # postscript(here('figures','figure2.eps'),width=9,height=8)
+
+
+if (ff=='png')
+{
+png(file=here('figures','figure2.png'),width=8,height=7.3,res=800,units='in')
+}
+
+if (ff=='tiff')
+{
 tiff(file=here('figures','figure2.tiff'),width=8,height=7.3,res=800,units='in')
+}
 
 par(mfrow=c(2,2),mar=c(5,4,3,1))
 plot(res.coarse$n,res.coarse$r,pch=20,col=ifelse(res.coarse$acc.lm,'darkgrey','indianred'),xlab='n',ylab='r',main=paste('Aoristic Sum (100yrs res); ',round(sum(res.coarse$acc.lm)/nrow(res.coarse)*100,1),'% acccuracy'))
@@ -73,11 +97,21 @@ plot(res.fine$n,res.fine$r,pch=20,col=ifelse(res.fine$acc.lm,'darkgrey','indianr
 plot(res.fine$n,res.fine$r,pch=20,col=ifelse(res.fine$acc.bayes,'darkgrey','indianred'),xlab='n',ylab='r',main=paste('Bayesian (1yr res); ',round(sum(res.fine$acc.bayes)/nrow(res.fine)*100,1),'% acccuracy'),cex=1)
 dev.off()
 
-### Equifinality plot ----
+### Equifinality plot (Experiment 3) ----
 # setEPS()
 # postscript(here('figures','figure5.eps'),width=8,height=8)
+load(here('results','exp03_res.RData'))
+
+if (ff=='png')
+{
+png(file=here('figures','figure3.png'),width=8,height=8,res=800,units='in')
+}
+
+if (ff=='tiff')
+{
 tiff(file=here('figures','figure3.tiff'),width=8,height=8,res=800,units='in')
-load(here('results','equifinality.RData'))
+}
+
 par(mfcol=c(2,2),mar=c(4,4,2,1))
 # panel a
 c1  <- dLogisticGrowth2(800:301,r=rr[1],a=800,b=301,m=mm[1],log=F)
@@ -104,11 +138,21 @@ dev.off()
 
 
 
-### Shape Aoristic SUM ----
-load(here('results','res_icar_shape.RData'))
-# setEPS()
-# postscript(here('figures','figure3.eps'),width=5,height=9)
+### Shape Aoristic SUM (experiment 4) ----
+load(here('results','exp04_res.RData'))
+
+
+if (ff=='png')
+{
+png(file=here('figures','figure4.png'),width=5,height=7,res=800,units='in')
+}
+
+if (ff=='tiff')
+{
 tiff(file=here('figures','figure4.tiff'),width=5,height=7,res=800,units='in')
+}
+
+
 par(mfrow=c(3,2),mar=c(4,4,2,1))
 for (i in 1:nrow(params))
 {
@@ -122,9 +166,18 @@ dev.off()
 
 
 ### Shape ICAR ----
-# setEPS()
-# postscript(here('figures','figure4.eps'),width=5,height=9)
+load(here('results','exp04_res.RData'))
+
+if (ff=='png')
+{
+png(file=here('figures','figure5.png'),width=5,height=7,res=800,units='in')
+}
+
+if (ff=='tiff')
+{
 tiff(file=here('figures','figure5.tiff'),width=5,height=7,res=800,units='in')
+}
+
 par(mfrow=c(3,2),mar=c(4,4,2,1))
 for (i in 1:nrow(params))
 {

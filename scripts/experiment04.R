@@ -46,4 +46,4 @@ for (i in 1:length(probMats))
 }
 
 
-save.image(file=here('results','res_icar_shape.RData'))
+save.image(file=here('results','exp04_res.RData'))
