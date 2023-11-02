@@ -142,8 +142,8 @@ tiff(file=here('figures','figure3.tiff'),width=8,height=7.3,res=800,units='in')
 par(mfrow=c(2,2),mar=c(5,4,3,1))
 plot(res.coarse$n,res.coarse$r,pch=20,col=ifelse(res.coarse$acc.lm,'darkgrey','indianred'),xlab='n',ylab='r',main=paste('Aoristic Sum (100yrs res); ',round(sum(res.coarse$acc.lm)/nrow(res.coarse)*100,1),'% acccuracy'))
 plot(res.coarse$n,res.coarse$r,pch=20,col=ifelse(res.coarse$acc.bayes,'darkgrey','indianred'),xlab='n',ylab='r',main=paste('Bayesian (100yrs res); ',round(sum(res.coarse$acc.bayes)/nrow(res.coarse)*100,1),'% acccuracy'))
-plot(res.fine$n,res.fine$r,pch=20,col=ifelse(res.fine$acc.lm,'darkgrey','indianred'),xlab='n',ylab='r',main=paste('Aoristic Sum (1yr res); ',round(sum(res.fine$acc.lm)/nrow(res.fine)*100,1),'% acccuracy'),cex=1)
-plot(res.fine$n,res.fine$r,pch=20,col=ifelse(res.fine$acc.bayes,'darkgrey','indianred'),xlab='n',ylab='r',main=paste('Bayesian (1yr res); ',round(sum(res.fine$acc.bayes)/nrow(res.fine)*100,1),'% acccuracy'),cex=1)
+plot(res.fine$n,res.fine$r,pch=20,col=ifelse(res.fine$acc.lm,'darkgrey','indianred'),xlab='n',ylab='r',main=paste('Aoristic Sum (10yr res); ',round(sum(res.fine$acc.lm)/nrow(res.fine)*100,1),'% acccuracy'),cex=1)
+plot(res.fine$n,res.fine$r,pch=20,col=ifelse(res.fine$acc.bayes,'darkgrey','indianred'),xlab='n',ylab='r',main=paste('Bayesian (10yr res); ',round(sum(res.fine$acc.bayes)/nrow(res.fine)*100,1),'% acccuracy'),cex=1)
 dev.off()
 
 ### Equifinality plot (Experiment 3) ----
@@ -177,8 +177,8 @@ legend(x=800,y=0.008,legend=c(paste0('r=',round(rr[1],5),' & m=',mm[1]),paste0('
 plot(fit,hpd=c(0.95,0.95),col1='lightblue',col2='lightblue',plot.legend=FALSE,pch=NA,main='c',ylim=c(0,0.009),xlab='BP')
 
 # panel b
-plot(params$m,params$r,pch=20,col='lightgrey',xlab='m',ylab='r',main='b',cex=0.01)
-points(sparam$m,sparam$r,pch=20,col='indianred',xlab='m',ylab='r')
+plot(params$m,params$r,pch='+',col='lightgrey',xlab='m',ylab='r',main='b',cex=0.5)
+points(sparam$m,sparam$r,pch='+',col='indianred',xlab='m',ylab='r',cex=0.5)
 
 # panel d
 plot(fit$posterior.m,fit$posterior.r,pch=1,col=rgb(0.67,0.84,0.9,0.1),xlim=c(300,800),ylim=c(0,0.03),main='d',xlab='m',ylab='r')
