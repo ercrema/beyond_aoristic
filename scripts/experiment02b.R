@@ -9,6 +9,8 @@ source(here('src','unifdisc.R'))
 source(here('src','diristick.R'))
 
 
+# Register nimble function with for inference
+# This allows the use of the same compiled model saving processing time 
 dAoristicExponentialGrowth_vector2=nimbleFunction(
   run = function(x = double(2),z=integer(0),r=double(0), log = integer(0)) {
     returnType(double(0))
@@ -38,27 +40,33 @@ suppressMessages(registerDistributions(list(
   ))))
 
 
-nsim  <- 1000
-max.sample  <- 500
-resolution <- 10
+nsim  <- 1000 #Number of replicates
+max.sample  <- 500 #Maximum sample size
+resolution <- 100 #Time-block resolution
 res <- data.frame(nsim.id=1:nsim,r=NA,n=NA,ci.lo=NA,ci.hi=NA,hpdi.lo=NA,hpdi.hi=NA,prec.lm=NA,prec.bayes=NA,acc.lm=NA,acc.bayes=NA)
 
 for (i in 1:nsim)
 {
 	print(i)
 	set.seed(i)
-# 	res$r[i]  <- rnorm(1,mean=0,sd=0.002)
+	#Randomly sample growth rate and sample size
 	res$r[i]  <- runif(1,-0.002,0.002)
 	res$n[i] <- round(runif(1,min=100,max=max.sample))
+	#Randomly sample dates via nimbleCarbon
 	cal.dates  <-  replicate(n=res$n[i], rExponentialGrowth(a=4999,b=3002,r=res$r[i]))
+	#Dates to time-span conversion (and random generation of archaeological periodisations)
 	nphases <- sample(3:10,replace=T,size=1)
 	phases <- diristick(alpha=rep(5,nphases),timeRange=c(5000,3001))
 	adata <- time2phase(cal.dates,phases)
+	#Data setup
 	x <- createProbMat(adata[,2:3],timeRange=c(5000,3001),resolution=resolution)
 	yy <- apply(x$pmat,2,sum)
 	dd  <- data.frame(xx=-apply(x$tblocks,1,median),yy=yy)
+	#Regression based estimate
 	fit  <- lm(log(yy+0.001)~xx,data=dd)
 	ci <- confint(fit)[2,]
+
+	#The lines below replaces baorista::expfit() using the same compile C object
 	if (i == 1)
 	{
 
@@ -91,15 +99,13 @@ for (i in 1:nsim)
 
 		cModel$resetData()
 		cModel$setData(theta=rbind(x$pmat,matrix(0,nrow=max.sample-res$n[i],ncol=ncol(x$pmat))))
-# 		MCMC <- buildMCMC(conf)
-# 		cMCMC <- compileNimble(MCMC)
 		out <- runMCMC(cMCMC, niter = 100000, thin=10,nburnin =50000 ,inits=inits,samplesAsCodaMCMC = T,nchains=4,progressBar=F)
 		post <- do.call(rbind.data.frame,out)/x$resolution
 	}
 
-# 	fitB <- expfit(x,rPrior='dunif(-1,1)')
-# 	hpdi <- HPDinterval(mcmc(fitB$posterior.r)) |> as.numeric()
 	hpdi <- HPDinterval(mcmc(post)) |> as.numeric()
+
+	# Store output
 	res$ci.lo[i] <- ci[1]
 	res$ci.hi[i] <- ci[2]
 	res$prec.lm[i] <- abs(diff(ci))
