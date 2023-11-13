@@ -72,7 +72,7 @@ loaded via a namespace (and not attached):
 [61] spatstat.random_3.1-5  glue_1.6.2             DBI_1.1.3             
 [64] R6_2.5.1               plyr_1.8.8             units_0.8-3      
 ```
-Please note that the R package _baorista_ is not available on CRAN yet, but the latest version can be installed directly from GitHub with the following command:
+Please note that the R package [_baorista_](https://github.com/ercrema/baorista) is not available on CRAN yet, but the latest version can be installed directly from GitHub with the following command:
 ```
 library(devtools)
 install_github('ercrema/baorista')
