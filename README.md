@@ -2,7 +2,7 @@
 
 This repository contains data and scripts used in the following paper:
 
-Crema, E.R. (2023) A Bayesian alternative for Aoristic analyses in Archaeology.
+[Crema, E.R. (2023) A Bayesian alternative for Aoristic analyses in Archaeology.](https://osf.io/98qkx)
 
 The repository is organised into four directories: _figures_, _results_, _scripts_, and _src_. 
 The _scripts_ directory contains R scripts for each of the four simulation experiments, _src_ contains utility functions, _results_ contains R image files with the analyses output, and _figures_ contains all figures in the manuscript and the R script required to generate them. 
@@ -72,7 +72,7 @@ loaded via a namespace (and not attached):
 [61] spatstat.random_3.1-5  glue_1.6.2             DBI_1.1.3             
 [64] R6_2.5.1               plyr_1.8.8             units_0.8-3      
 ```
-Please note that the R package _baorista_ is not available on CRAN yet, but the latest version can be installed directly from GitHub with the following command:
+Please note that the R package [_baorista_](https://github.com/ercrema/baorista) is not available on CRAN yet, but the latest version can be installed directly from GitHub with the following command:
 ```
 library(devtools)
 install_github('ercrema/baorista')
