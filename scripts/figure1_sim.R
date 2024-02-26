@@ -57,5 +57,5 @@ mcs4 = mcsim(x=x4,nsim=1000,timeRange=timeRange,blockSize=resolution)
 
 expected.dens  <- dDoubleExponentialGrowth(x=timeRange[1]:timeRange[2],a=timeRange[1],b=timeRange[2],r1=r1,r2=r2,mu=changepoint,log=FALSE)*resolution*nsample
 
-save(mcs1,mcs2,mcs3,mcs4,asum1,asum2,asum3,asum4,expected.dens,timeRange,file=here('results','figure1_res.RData'))
+save(phases1,phases2,phases3,mcs1,mcs2,mcs3,mcs4,asum1,asum2,asum3,asum4,expected.dens,timeRange,file=here('results','figure1_res.RData'))
 
