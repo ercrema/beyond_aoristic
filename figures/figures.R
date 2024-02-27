@@ -56,7 +56,7 @@ mdp = apply(mcs3[[1]],1,median)
 ribbon(x=mdp,y=mcs3[[2]])
 lines(mdp,apply(mcs3[[2]],1,median),lty=2,col='indianred',lwd=1.5)
 lines(timeRange[1]:timeRange[2],expected.dens,col='steelblue',lty=2,lwd=2)
-phaserect(x=data.frame(phasenames=phases3$phasename,starts=phases3$starts,ends=phases3$ends),w=0.05)
+# phaserect(x=data.frame(phasenames=phases3$phasename,starts=phases3$starts,ends=phases3$ends),w=0.05)
 legend('topleft',legend='c',bty='n',cex=1.2)
 box()
 
