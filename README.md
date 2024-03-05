@@ -19,7 +19,7 @@ The _scripts_ directory contains R scripts for each of the four simulation exper
 * `exo02b_res.RData` ... R image file containing results of experiment 2 (10 yrs resolution), generated running `experiment02b.R`.
 * `exo03_res.RData` ... R image file containing results of experiment 3, generated running `experiment03.R`.
 * `exo04_res.RData` ... R image file containing results of experiment 4, generated running `experiment04.R`.
-* `figure1_res.RData` ... R image containing objects required for figure 1.
+* `figure1_res.RData` ... R image containing objects required for figure 1, generated running `figure1_sim.R`.
   
 #### scripts
 * `experiment01.R` ... R script for running experiment #1
@@ -27,6 +27,7 @@ The _scripts_ directory contains R scripts for each of the four simulation exper
 * `experiment02b.R` ... R script for running experiment #2 (10yrs resolution).
 * `experiment03.R` ... R script for running experiment #3
 * `experiment04.R` ... R script for running experiment #4
+* `figure1_sim.R` ... R script for generating the data required for making figure 1.
   
 
 #### src
