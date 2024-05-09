@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/457855600.svg)](https://zenodo.org/doi/10.5281/zenodo.11163687)
+
 # Data and R scripts for the paper 'A Bayesian alternative for Aoristic analyses in Archaeology'
 
 This repository contains data and scripts used in the following paper:
