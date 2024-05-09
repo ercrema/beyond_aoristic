@@ -79,8 +79,7 @@ library(devtools)
 install_github('ercrema/baorista')
 ```
 ## Funding
- * ERC Starting Grant Demography, Cultural Change, and the Diffusion of Rice and Millets during the Jomon-Yayoi transition in prehistoric Japan (ENCOUNTER) (Project N. 801953, PI: E. Crema).
- * Philip Leverhulme Prize (#PLP-2019–304 Awarded to: E.Crema)
+Philip Leverhulme Prize (#PLP-2019–304 Awarded to: E.Crema)
 
 ## Licence
 CC-BY 3.0
