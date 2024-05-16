@@ -4,7 +4,7 @@
 
 This repository contains data and scripts used in the following paper:
 
-Crema, E.R. (2024) A Bayesian alternative for Aoristic analyses in Archaeology. Archaeometry. DOI:10.1111/arcm.12984
+Crema, E.R. (2024) A Bayesian alternative for Aoristic analyses in Archaeology. Archaeometry
 
 The repository is organised into four directories: _figures_, _results_, _scripts_, and _src_. 
 The _scripts_ directory contains R scripts for each of the four simulation experiments, _src_ contains utility functions, _results_ contains R image files with the analyses output, and _figures_ contains all figures in the manuscript and the R script required to generate them. 
